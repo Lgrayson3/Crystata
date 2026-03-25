@@ -4,7 +4,6 @@ Run with: streamlit run app.py
 """
 
 import os
-import sys
 import logging
 import streamlit as st
 import pandas as pd
@@ -17,7 +16,6 @@ load_dotenv()
 
 # ── Local imports ──────────────────────────────────────────────────────────────
 from database import init_db, get_connection
-from sentry import get_resource_snapshot, scan_processes, purge_non_essential
 from reconciliation import compute_snapshot, save_snapshot, get_snapshot_history
 from advisor import generate_weekend_forecast
 
@@ -271,40 +269,6 @@ if st.button("Generate Forecast", use_container_width=False):
     st.caption("⚠️ All merchant names were replaced with category tokens before being sent to the AI. No PII left this device.")
 else:
     st.caption("Click to generate a personalized weekend spending forecast powered by Gemini 1.5 Flash.")
-
-# ── Sentry (Performance Guard) ─────────────────────────────────────────────────
-st.divider()
-st.subheader("🛡️ Performance Guard (Sentry)")
-
-res = get_resource_snapshot()
-s1, s2, s3, s4 = st.columns(4)
-s1.metric("CPU", f"{res['cpu_percent']}%")
-s2.metric("RAM", f"{res['ram_percent']}%", f"{res['ram_used_gb']}/{res['ram_total_gb']} GB")
-s3.metric("Disk Free", f"{res['disk_free_gb']} GB")
-s4.metric("Processes", res["process_count"])
-
-with st.expander("Scan Non-Essential Processes"):
-    scan_result = scan_processes()
-    non_essential = scan_result.get("non_essential", [])
-    if non_essential:
-        df_procs = pd.DataFrame(non_essential)[["pid", "name", "cpu_percent", "memory_percent"]]
-        st.dataframe(df_procs, use_container_width=True)
-
-        dry_col, live_col = st.columns(2)
-        if dry_col.button("🔍 Dry Run (Preview)"):
-            report = purge_non_essential(dry_run=True)
-            st.json(report)
-        if live_col.button("⚠️ Terminate Non-Essential", type="primary"):
-            if st.session_state.get("confirm_purge"):
-                report = purge_non_essential(dry_run=False)
-                st.success(f"Terminated {len(report['killed'])} processes.")
-                st.json(report)
-                st.session_state["confirm_purge"] = False
-            else:
-                st.session_state["confirm_purge"] = True
-                st.warning("Click again to confirm termination.")
-    else:
-        st.success("No non-essential processes detected.")
 
 # ── Footer ─────────────────────────────────────────────────────────────────────
 st.divider()
