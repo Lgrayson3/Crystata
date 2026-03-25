@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - claude/grayson-ledger-setup-MVyq4
-  workflow_dispatch: # allows manual trigger from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,26 +19,41 @@ jobs:
         with:
           java-version: "17"
           distribution: "temurin"
-          # Caches ~/.gradle automatically — speeds up every build after the first
-          cache: gradle
 
-      - name: Write local.properties (Android SDK path)
-        run: echo "sdk.dir=$ANDROID_SDK_ROOT" > android_app/local.properties
+      - name: Install Android SDK components + NDK
+        run: |
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-34" \
+            "build-tools;34.0.0" \
+            "ndk;25.2.9519653" \
+            --sdk_root=$ANDROID_SDK_ROOT
 
-      # Installs Gradle 8.4 without needing a committed gradlew wrapper binary
+      - name: Write local.properties
+        run: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > android_app/local.properties
+          echo "ndk.dir=$ANDROID_SDK_ROOT/ndk/25.2.9519653" >> android_app/local.properties
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('android_app/**/*.gradle*', 'android_app/gradle.properties') }}
+          restore-keys: gradle-
+
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.4"
 
       - name: Build debug APK
         working-directory: android_app
-        run: gradle assembleDebug --stacktrace
+        run: gradle assembleDebug --stacktrace --info 2>&1 | tail -100
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: grayson-ledger-v${{ github.run_number }}
           path: android_app/app/build/outputs/apk/debug/app-debug.apk
-          # Keep artifacts for 90 days so you can always grab a recent build
           retention-days: 90

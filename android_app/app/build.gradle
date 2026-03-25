@@ -9,12 +9,11 @@ android {
 
     defaultConfig {
         applicationId   "com.graysonledger"
-        minSdk          26          // Android 8.0 — covers ~95% of active devices
+        minSdk          26
         targetSdk       34
         versionCode     1
         versionName     "1.0.0"
 
-        // Build for the two dominant Android ABIs
         ndk {
             abiFilters "arm64-v8a", "x86_64"
         }
@@ -22,14 +21,13 @@ android {
         python {
             version "3.11"
 
-            // Packages bundled inside the APK
             pip {
-                install "flask==3.0.3"
-                install "pandas==2.2.2"
-                install "plaid-python==20.1.0"
-                install "google-generativeai==0.5.4"
-                install "python-dotenv==1.0.1"
-                install "requests==2.31.0"
+                install "flask"
+                install "pandas"
+                install "plaid-python"
+                install "google-generativeai"
+                install "python-dotenv"
+                install "requests"
             }
         }
     }
@@ -46,10 +44,10 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    // Copy project Python source into the APK's Python source set
     sourceSets {
         main {
-            python.srcDirs = ["src/main/python"]
+            // Include both the Android-specific server.py AND all project Python modules
+            python.srcDirs = ["src/main/python", "../.."]
         }
     }
 }
