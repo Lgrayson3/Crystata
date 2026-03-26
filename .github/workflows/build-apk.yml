@@ -31,7 +31,14 @@ jobs:
 
       - name: Build APK via EAS
         working-directory: mobile
-        run: eas build --platform android --profile preview --non-interactive --output /tmp/app.apk
+        run: eas build --platform android --profile preview --non-interactive
+
+      - name: Download APK from EAS
+        working-directory: mobile
+        run: |
+          URL=$(eas build:list --platform android --limit 1 --json --non-interactive | jq -r '.[0].artifacts.buildUrl')
+          echo "Downloading APK from: $URL"
+          curl -L "$URL" -o /tmp/app.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
