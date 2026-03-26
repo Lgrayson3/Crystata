@@ -20,7 +20,8 @@ async function initSchema(db: SQLite.SQLiteDatabase) {
       hourly_rate   REAL DEFAULT 0,
       hours_worked  REAL DEFAULT 0,
       source        TEXT DEFAULT 'csv',
-      imported_at   TEXT DEFAULT (datetime('now'))
+      imported_at   TEXT DEFAULT (datetime('now')),
+      UNIQUE(log_date, source)
     );
 
     CREATE TABLE IF NOT EXISTS transactions (
