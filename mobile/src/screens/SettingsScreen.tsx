@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import { COLORS } from '../theme';
 import { parseCSV } from '../lib/sheets';
 import { insertWorkLogs } from '../lib/db';

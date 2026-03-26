@@ -25,9 +25,13 @@ jobs:
           eas-version: latest
           token: ${{ secrets.Expo_Token }}
 
-      - name: Install JS dependencies
+      - name: Install dependencies
         working-directory: mobile
-        run: npm install
+        run: npm install --legacy-peer-deps
+
+      - name: Align Expo package versions
+        working-directory: mobile
+        run: npx expo install --fix
 
       - name: Build APK via EAS
         working-directory: mobile
