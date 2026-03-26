@@ -42,10 +42,11 @@ jobs:
           key: gradle-${{ hashFiles('android_app/**/*.gradle*', 'android_app/gradle.properties') }}
           restore-keys: gradle-
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.4"
+      - name: Download Gradle 8.4
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.4-bin.zip -O /tmp/gradle.zip
+          unzip -q /tmp/gradle.zip -d /opt/gradle
+          echo "/opt/gradle/gradle-8.4/bin" >> $GITHUB_PATH
 
       - name: Build debug APK
         working-directory: android_app
