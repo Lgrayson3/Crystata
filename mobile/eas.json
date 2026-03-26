@@ -1,0 +1,13 @@
+{
+  "cli": {
+    "version": ">= 13.0.0",
+    "promptToConfigurePushNotifications": false
+  },
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    }
+  }
+}
