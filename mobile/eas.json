@@ -1,7 +1,8 @@
 {
   "cli": {
     "version": ">= 13.0.0",
-    "promptToConfigurePushNotifications": false
+    "promptToConfigurePushNotifications": false,
+    "appVersionSource": "local"
   },
   "build": {
     "preview": {
