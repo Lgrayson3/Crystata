@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Grayson Ledger",
+    "slug": "grayson-ledger",
+    "version": "1.0.0",
+    "platforms": ["android"],
+    "android": {
+      "package": "com.graysonledger",
+      "permissions": ["INTERNET"],
+      "adaptiveIcon": {
+        "backgroundColor": "#1e1e2e"
+      }
+    },
+    "plugins": [
+      "expo-secure-store",
+      ["expo-sqlite", { "useSQLCipher": false }]
+    ]
+  }
+}
