@@ -31,15 +31,12 @@ jobs:
 
       - name: Build APK via EAS
         working-directory: mobile
-        run: |
-          BUILD=$(eas build --platform android --profile preview --non-interactive --json 2>/dev/null)
-          echo "$BUILD" > /tmp/eas-build.json
-          echo "Build JSON:"
-          echo "$BUILD" | jq .
+        run: eas build --platform android --profile preview --non-interactive
 
       - name: Download APK from EAS
+        working-directory: mobile
         run: |
-          URL=$(jq -r 'if type=="array" then .[0] else . end | .artifacts.buildUrl // .artifacts.applicationArchiveUrl' /tmp/eas-build.json)
+          URL=$(eas build:list --platform android --limit 1 --json --non-interactive | jq -r '.[0].artifacts.buildUrl // .[0].artifacts.applicationArchiveUrl')
           echo "Downloading APK from: $URL"
           curl -L "$URL" -o /tmp/app.apk
 
