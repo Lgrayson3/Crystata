@@ -6,14 +6,10 @@
     "platforms": ["android"],
     "android": {
       "package": "com.graysonledger",
-      "permissions": ["INTERNET"],
-      "adaptiveIcon": {
-        "backgroundColor": "#1e1e2e"
-      }
+      "permissions": ["INTERNET"]
     },
     "plugins": [
-      "expo-secure-store",
-      ["expo-sqlite", { "useSQLCipher": false }]
+      "expo-secure-store"
     ]
   }
 }

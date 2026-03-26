@@ -25,6 +25,14 @@ jobs:
           java-version: "17"
           distribution: "temurin"
 
+      - name: Install Android SDK components and NDK
+        run: |
+          yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager \
+            "platforms;android-34" \
+            "build-tools;34.0.0" \
+            "ndk;25.2.9519653" \
+            --sdk_root=$ANDROID_SDK_ROOT
+
       - name: Install JS dependencies
         working-directory: mobile
         run: npm install
@@ -34,7 +42,9 @@ jobs:
         run: npx expo prebuild --platform android --no-install
 
       - name: Write local.properties
-        run: echo "sdk.dir=$ANDROID_SDK_ROOT" > mobile/android/local.properties
+        run: |
+          echo "sdk.dir=$ANDROID_SDK_ROOT" > mobile/android/local.properties
+          echo "ndk.dir=$ANDROID_SDK_ROOT/ndk/25.2.9519653" >> mobile/android/local.properties
 
       - name: Cache Gradle
         uses: actions/cache@v4
