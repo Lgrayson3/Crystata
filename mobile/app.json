@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Grayson Ledger",
-    "slug": "grayson-ledger",
+    "slug": "crystata",
     "owner": "grayson-systems",
     "version": "1.0.0",
     "platforms": ["android"],
