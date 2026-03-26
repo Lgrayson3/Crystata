@@ -134,10 +134,7 @@ def generate_weekend_forecast(
         )
 
     try:
-        import google.generativeai as genai
-
-        genai.configure(api_key=api_key)
-        model = genai.GenerativeModel(GEMINI_MODEL)
+        import requests
 
         raw_txns = fetch_transactions_for_advisor(conn)
         raw_bills = fetch_liabilities_for_advisor(conn)
@@ -148,8 +145,16 @@ def generate_weekend_forecast(
         prompt = _build_prompt(scrubbed_txns, scrubbed_bills, safe_to_spend, bleed)
 
         log.info("Sending scrubbed data to Gemini (%s transactions, %s bills)", len(scrubbed_txns), len(scrubbed_bills))
-        response = model.generate_content(prompt)
-        return response.text
+        # Use Gemini REST API directly — no grpc/google-generativeai SDK needed
+        url = (
+            f"https://generativelanguage.googleapis.com/v1beta/models/"
+            f"{GEMINI_MODEL}:generateContent?key={api_key}"
+        )
+        body = {"contents": [{"parts": [{"text": prompt}]}]}
+        resp = requests.post(url, json=body, timeout=30)
+        resp.raise_for_status()
+        data = resp.json()
+        return data["candidates"][0]["content"]["parts"][0]["text"]
 
     except Exception as e:
         log.error("Gemini call failed: %s", e)

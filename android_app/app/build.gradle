@@ -23,11 +23,9 @@ android {
 
             pip {
                 install "flask"
-                install "pandas"
-                install "plaid-python"
-                install "google-generativeai"
                 install "python-dotenv"
                 install "requests"
+                install "plaid-python"
             }
         }
     }

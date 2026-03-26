@@ -5,10 +5,16 @@ Reads "Grayson" rows from a Google Sheet or local CSV and loads them into SQLite
 
 import os
 import io
+import csv
 import logging
-import pandas as pd
 from datetime import datetime
 from dotenv import load_dotenv
+
+try:
+    import pandas as pd
+    _HAS_PANDAS = True
+except ImportError:
+    _HAS_PANDAS = False
 
 load_dotenv()
 log = logging.getLogger("work_logs")
@@ -27,18 +33,58 @@ COL_MAP = {
 }
 
 
-def _normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """Remap whatever headers exist in the sheet to our canonical names."""
-    rename = {}
+def _canonical_col(header: str) -> str:
+    """Map a raw header string to a canonical column name, or return it unchanged."""
+    h = header.strip()
     for canonical, variants in COL_MAP.items():
-        for col in df.columns:
-            if col.strip() in variants:
-                rename[col] = canonical
-                break
-    return df.rename(columns=rename)
+        if h in variants:
+            return canonical
+    return h
 
 
-def _load_from_google_sheets() -> pd.DataFrame:
+def _clean_number(val) -> float:
+    try:
+        return float(str(val).replace("$", "").replace(",", "").strip())
+    except (ValueError, TypeError):
+        return 0.0
+
+
+def _parse_date(val) -> str:
+    """Return ISO date string or empty string on failure."""
+    s = str(val).strip()
+    for fmt in ("%Y-%m-%d", "%m/%d/%Y", "%m/%d/%y", "%d/%m/%Y", "%B %d, %Y"):
+        try:
+            return datetime.strptime(s, fmt).strftime("%Y-%m-%d")
+        except ValueError:
+            continue
+    return ""
+
+
+def _rows_to_records(raw_rows: list[dict]) -> list[dict]:
+    """Normalize column names and clean values; return list of dicts."""
+    records = []
+    for row in raw_rows:
+        norm = {_canonical_col(k): v for k, v in row.items()}
+        if norm.get("name", "").strip().lower() != "grayson":
+            continue
+        date_str = _parse_date(norm.get("date", ""))
+        if not date_str:
+            continue
+        records.append({
+            "date": date_str,
+            "tips": _clean_number(norm.get("tips", 0)),
+            "hourly_rate": _clean_number(norm.get("hourly_rate", 0)),
+            "hours_worked": _clean_number(norm.get("hours_worked", 0)),
+        })
+    return records
+
+
+def _load_csv_records(path: str) -> list[dict]:
+    with open(path, newline="", encoding="utf-8-sig") as f:
+        return list(csv.DictReader(f))
+
+
+def _load_from_google_sheets() -> list[dict]:
     import gspread
     from google.oauth2.service_account import Credentials
 
@@ -49,24 +95,19 @@ def _load_from_google_sheets() -> pd.DataFrame:
     creds = Credentials.from_service_account_file(CREDS_PATH, scopes=scopes)
     gc = gspread.authorize(creds)
     ws = gc.open_by_key(SHEET_ID).worksheet(SHEET_NAME)
-    rows = ws.get_all_records()
-    return pd.DataFrame(rows)
+    return ws.get_all_records()
 
 
-def _load_from_csv(path: str) -> pd.DataFrame:
-    return pd.read_csv(path)
-
-
-def fetch_grayson_rows(csv_path: str = None) -> pd.DataFrame:
+def fetch_grayson_rows(csv_path: str = None):
     """
     Pull rows from the spreadsheet, filter for Name == 'Grayson',
-    and return a clean DataFrame.
+    and return a list of clean dicts (or a DataFrame if pandas is available).
     """
     if csv_path:
-        df = _load_from_csv(csv_path)
+        raw = _load_csv_records(csv_path)
         source = "csv"
     elif SHEET_ID and CREDS_PATH:
-        df = _load_from_google_sheets()
+        raw = _load_from_google_sheets()
         source = "google_sheets"
     else:
         raise ValueError(
@@ -74,43 +115,33 @@ def fetch_grayson_rows(csv_path: str = None) -> pd.DataFrame:
             "GOOGLE_SHEETS_CREDENTIALS_JSON in .env"
         )
 
-    df = _normalize_columns(df)
+    records = _rows_to_records(raw)
+    if not records:
+        raise ValueError("No 'Grayson' rows found after filtering.")
 
-    required = {"date", "name", "tips", "hourly_rate", "hours_worked"}
-    missing = required - set(df.columns)
-    if missing:
-        raise KeyError(f"Spreadsheet is missing columns: {missing}")
+    for r in records:
+        r["source"] = source
 
-    # Filter for Grayson only
-    df = df[df["name"].str.strip().str.lower() == "grayson"].copy()
-
-    # Clean numeric fields
-    for col in ["tips", "hourly_rate", "hours_worked"]:
-        df[col] = (
-            df[col]
-            .astype(str)
-            .str.replace(r"[\$,]", "", regex=True)
-            .str.strip()
-            .pipe(pd.to_numeric, errors="coerce")
-            .fillna(0)
-        )
-
-    # Parse dates
-    df["date"] = pd.to_datetime(df["date"], infer_datetime_format=True, errors="coerce")
-    df = df.dropna(subset=["date"])
-    df["date"] = df["date"].dt.strftime("%Y-%m-%d")
-
-    df["source"] = source
-    log.info("Fetched %d Grayson rows from %s", len(df), source)
-    return df
+    # Return a DataFrame when pandas is available (desktop Streamlit app),
+    # otherwise return the list of dicts (Android / no-pandas environments).
+    log.info("Fetched %d Grayson rows from %s", len(records), source)
+    if _HAS_PANDAS:
+        return pd.DataFrame(records)
+    return records
 
 
-def save_work_logs(df: pd.DataFrame, conn) -> int:
-    """Upsert work log rows into the database. Returns count inserted."""
+def save_work_logs(rows, conn) -> int:
+    """Upsert work log rows into the database. Accepts a DataFrame or list of dicts."""
     cur = conn.cursor()
     inserted = 0
 
-    for _, row in df.iterrows():
+    # Normalise to an iterable of dicts
+    if _HAS_PANDAS and isinstance(rows, pd.DataFrame):
+        iter_rows = (r for _, r in rows.iterrows())
+    else:
+        iter_rows = iter(rows)
+
+    for row in iter_rows:
         cur.execute(
             """
             INSERT OR IGNORE INTO work_logs (log_date, tips, hourly_rate, hours_worked, source)
