@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-04-08T05:17:35.680Z",
+  "totalEntities": 5,
+  "collections": {
+    "planets": [
+      {
+        "id": "ferridane",
+        "name": "Ferridane"
+      },
+      {
+        "id": "pyrthera",
+        "name": "Pyrthera"
+      },
+      {
+        "id": "tenebralis",
+        "name": "Tenebralis"
+      },
+      {
+        "id": "thalassor",
+        "name": "Thalassor"
+      },
+      {
+        "id": "zephyros",
+        "name": "Zephyros"
+      }
+    ],
+    "regions": [],
+    "factions": [],
+    "characters": [],
+    "magicSystems": []
+  }
+}

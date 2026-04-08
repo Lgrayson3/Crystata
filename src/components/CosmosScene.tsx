@@ -12,18 +12,39 @@ import { $canvasVisible } from '../stores/navigation';
  */
 const PLANETS = [
   {
-    id: 'aethermoor',
-    name: 'Aethermoor',
+    id: 'thalassor',
+    name: 'Thalassor',
     position: [0, 0, 0] as [number, number, number],
     radius: 8,
-    color: '#7B68EE',
+    color: '#1E90FF',
   },
   {
-    id: 'vorrenth',
-    name: 'Vorrenth',
-    position: [40, -10, 15] as [number, number, number],
-    radius: 6,
-    color: '#CD853F',
+    id: 'zephyros',
+    name: 'Zephyros',
+    position: [38, 12, -10] as [number, number, number],
+    radius: 7,
+    color: '#B0E0E6',
+  },
+  {
+    id: 'ferridane',
+    name: 'Ferridane',
+    position: [24, -32, 8] as [number, number, number],
+    radius: 7,
+    color: '#708090',
+  },
+  {
+    id: 'pyrthera',
+    name: 'Pyrthera',
+    position: [-24, -32, 8] as [number, number, number],
+    radius: 7,
+    color: '#FF4500',
+  },
+  {
+    id: 'tenebralis',
+    name: 'Tenebralis',
+    position: [-38, 12, -10] as [number, number, number],
+    radius: 7,
+    color: '#4B0082',
   },
 ];
 
