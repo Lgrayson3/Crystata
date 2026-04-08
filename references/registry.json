@@ -1,0 +1,72 @@
+{
+  "generatedAt": "2026-04-08T05:11:10.670Z",
+  "totalEntities": 14,
+  "collections": {
+    "planets": [
+      {
+        "id": "aethermoor",
+        "name": "Aethermoor"
+      },
+      {
+        "id": "vorrenth",
+        "name": "Vorrenth"
+      }
+    ],
+    "regions": [
+      {
+        "id": "ashwind-expanse",
+        "name": "Ashwind Expanse"
+      },
+      {
+        "id": "luminarch-basin",
+        "name": "Luminarch Basin"
+      },
+      {
+        "id": "shattered-reach",
+        "name": "The Shattered Reach"
+      }
+    ],
+    "factions": [
+      {
+        "id": "crystal-covenant",
+        "name": "The Crystal Covenant"
+      },
+      {
+        "id": "umbral-corsairs",
+        "name": "The Umbral Corsairs"
+      },
+      {
+        "id": "voidborn-collective",
+        "name": "The Voidborn Collective"
+      }
+    ],
+    "characters": [
+      {
+        "id": "kael-duskwarden",
+        "name": "Kael Duskwarden"
+      },
+      {
+        "id": "rhenn-ashfall",
+        "name": "Rhenn Ashfall"
+      },
+      {
+        "id": "syrel-vaine",
+        "name": "Syrel Vaine"
+      }
+    ],
+    "magicSystems": [
+      {
+        "id": "fracture-weaving",
+        "name": "Fracture Weaving"
+      },
+      {
+        "id": "lattice-resonance",
+        "name": "Lattice Resonance"
+      },
+      {
+        "id": "void-entropy",
+        "name": "Void Entropy"
+      }
+    ]
+  }
+}

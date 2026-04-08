@@ -4,3 +4,7 @@ dist/
 .wrangler/
 .env
 .env.*
+
+# Ingestion pipeline working files (raw source docs stay local)
+ingest/raw/
+ingest/processed/assets/

@@ -7,7 +7,10 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "registry": "node scripts/build-registry.mjs",
+    "ingest": "node scripts/ingest-pipeline.mjs",
+    "ingest:validate": "node scripts/ingest-pipeline.mjs --validate"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.0.0",
