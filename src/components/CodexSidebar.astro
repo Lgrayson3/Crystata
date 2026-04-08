@@ -1,0 +1,95 @@
+---
+/**
+ * Lateral navigation sidebar for codex entries.
+ * Renders related nodes from the knowledge graph.
+ */
+interface RelatedNode {
+  id: string;
+  name: string;
+}
+
+interface Props {
+  relations: {
+    planets: RelatedNode[];
+    regions: RelatedNode[];
+    factions: RelatedNode[];
+    characters: RelatedNode[];
+    magicSystems: RelatedNode[];
+  };
+}
+
+const { relations } = Astro.props;
+
+const sections = [
+  { label: 'Planets', collection: 'planets', items: relations.planets },
+  { label: 'Regions', collection: 'regions', items: relations.regions },
+  { label: 'Factions', collection: 'factions', items: relations.factions },
+  { label: 'Characters', collection: 'characters', items: relations.characters },
+  { label: 'Magic Systems', collection: 'magic-systems', items: relations.magicSystems },
+].filter((s) => s.items.length > 0);
+---
+
+<aside class="codex-sidebar">
+  <h3>Related Entries</h3>
+  {sections.map((section) => (
+    <div class="sidebar-section">
+      <h4>{section.label}</h4>
+      <ul>
+        {section.items.map((item) => (
+          <li>
+            <a href={`/codex/${section.collection}/${item.id}`}>
+              {item.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</aside>
+
+<style>
+  .codex-sidebar {
+    position: sticky;
+    top: 80px;
+    padding: 16px;
+    background: rgba(15, 15, 35, 0.8);
+    border: 1px solid rgba(123, 104, 238, 0.2);
+    border-radius: 8px;
+    min-width: 220px;
+  }
+
+  h3 {
+    font-family: monospace;
+    font-size: 13px;
+    color: rgba(200, 200, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 12px;
+  }
+
+  h4 {
+    font-family: monospace;
+    font-size: 12px;
+    color: #7B68EE;
+    margin: 12px 0 4px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li a {
+    display: block;
+    padding: 4px 0;
+    color: rgba(200, 200, 255, 0.8);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+
+  li a:hover {
+    color: #7B68EE;
+  }
+</style>

@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Cosmos">
+  <div class="cosmos-overlay">
+    <div class="title-block">
+      <h1>Crystata</h1>
+      <p>An interactive lore codex. Click a planet to begin exploring.</p>
+    </div>
+
+    <div class="codex-links">
+      <a href="/codex/characters/kael-duskwarden">Characters</a>
+      <a href="/codex/factions/crystal-covenant">Factions</a>
+      <a href="/codex/magic-systems/lattice-resonance">Magic Systems</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .cosmos-overlay {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 40px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .title-block {
+    max-width: 600px;
+  }
+
+  h1 {
+    font-family: monospace;
+    font-size: 48px;
+    color: #7B68EE;
+    margin: 0 0 8px;
+    letter-spacing: 0.15em;
+  }
+
+  p {
+    font-family: monospace;
+    font-size: 16px;
+    color: rgba(200, 200, 255, 0.7);
+    margin: 0;
+  }
+
+  .codex-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+    pointer-events: auto;
+  }
+
+  .codex-links a {
+    font-family: monospace;
+    font-size: 13px;
+    color: rgba(200, 200, 255, 0.6);
+    text-decoration: none;
+    border: 1px solid rgba(123, 104, 238, 0.3);
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .codex-links a:hover {
+    color: #7B68EE;
+    border-color: #7B68EE;
+    background: rgba(123, 104, 238, 0.1);
+  }
+</style>
