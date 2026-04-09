@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-04-09T13:49:18.680Z",
-  "totalEntities": 57,
+  "generatedAt": "2026-04-09T14:09:38.060Z",
+  "totalEntities": 68,
   "collections": {
     "planets": [
       {
@@ -50,6 +50,14 @@
         "name": "Gran Ornea & Auraeas"
       },
       {
+        "id": "house-axipitre",
+        "name": "House Axipitre"
+      },
+      {
+        "id": "house-felidae",
+        "name": "House Felidae"
+      },
+      {
         "id": "lower-terraces",
         "name": "The Lower Terraces"
       },
@@ -66,6 +74,14 @@
         "name": "The Mnemosyne Archipelago"
       },
       {
+        "id": "new-lykaion",
+        "name": "New Lykaion"
+      },
+      {
+        "id": "old-lykaion",
+        "name": "Old Lykaion"
+      },
+      {
         "id": "salacica",
         "name": "Salacica"
       },
@@ -80,6 +96,10 @@
       {
         "id": "the-depths",
         "name": "The Depths"
+      },
+      {
+        "id": "the-outlands",
+        "name": "The Outlands"
       },
       {
         "id": "upper-terraces",
@@ -114,8 +134,20 @@
         "name": "Alciel"
       },
       {
+        "id": "aurelius-vorn",
+        "name": "Aurelius Vorn"
+      },
+      {
+        "id": "bahamut",
+        "name": "Bahamut"
+      },
+      {
         "id": "cloud-sinclair",
         "name": "Saint Cloud Sinclair"
+      },
+      {
+        "id": "edgerinne",
+        "name": "Edgerinne"
       },
       {
         "id": "erebus",
@@ -182,6 +214,18 @@
       {
         "id": "antaka",
         "name": "Antaka"
+      },
+      {
+        "id": "art-of-the-forged-self",
+        "name": "The Art of the Forged Self"
+      },
+      {
+        "id": "art-of-the-true-name",
+        "name": "The Art of the True Name"
+      },
+      {
+        "id": "art-of-the-vital-current",
+        "name": "The Art of the Vital Current"
       },
       {
         "id": "black-flame",
