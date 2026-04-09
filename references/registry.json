@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-04-08T05:49:21.796Z",
-  "totalEntities": 16,
+  "generatedAt": "2026-04-09T11:56:30.133Z",
+  "totalEntities": 29,
   "collections": {
     "planets": [
       {
@@ -26,6 +26,10 @@
     ],
     "regions": [
       {
+        "id": "amphitra",
+        "name": "Amphitra"
+      },
+      {
         "id": "crystal-isles",
         "name": "The Crystal Isles"
       },
@@ -36,6 +40,22 @@
       {
         "id": "maias",
         "name": "Maias & The Grand Garden of Meliadas"
+      },
+      {
+        "id": "mnemosyne-archipelago",
+        "name": "The Mnemosyne Archipelago"
+      },
+      {
+        "id": "salacica",
+        "name": "Salacica"
+      },
+      {
+        "id": "sirens-sea-and-sky",
+        "name": "The Sirens of the Sea and Sky"
+      },
+      {
+        "id": "syndicate-isles",
+        "name": "The Syndicate Isles"
       },
       {
         "id": "uronoia",
@@ -53,8 +73,24 @@
         "name": "Aeralithe"
       },
       {
+        "id": "cloud-sinclair",
+        "name": "Saint Cloud Sinclair"
+      },
+      {
+        "id": "hydralithe",
+        "name": "Hydralithe"
+      },
+      {
         "id": "iles",
         "name": "Iles"
+      },
+      {
+        "id": "leif-sinclair",
+        "name": "Saint Leif Sinclair"
+      },
+      {
+        "id": "salacia",
+        "name": "Salacia"
       },
       {
         "id": "xal-uron",
@@ -63,8 +99,24 @@
     ],
     "magicSystems": [
       {
+        "id": "clairmancy",
+        "name": "Clairmancy"
+      },
+      {
         "id": "harmonics-of-resonance",
         "name": "Harmonics of Resonance"
+      },
+      {
+        "id": "hydromancy",
+        "name": "Hydromancy"
+      },
+      {
+        "id": "hydromnemesis",
+        "name": "Hydromnemesis"
+      },
+      {
+        "id": "oinomancy",
+        "name": "Oinomancy"
       },
       {
         "id": "silent-breath",

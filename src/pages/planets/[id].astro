@@ -29,6 +29,51 @@ function resolveCharacterName(ref?: { id: string }) {
   const char = allCharacters.find(c => c.id === ref.id);
   return char ? `<em>${char.data.name}</em> — ${char.data.title || char.data.description}` : ref.id;
 }
+
+// Per-realm color themes
+const REALM_THEMES: Record<string, string> = {
+  zephyros: `
+    --realm-deepest:#0a110a;--realm-deep:#0f1a0f;--realm-card:#131f13;
+    --realm-card-hover:#1a2b1a;--realm-dark:#2D5F2D;--realm-mid:#3A7D3A;
+    --realm-bright:#6BBF6B;--realm-glow:#8FD98F;--realm-pale:#c8eac8;
+    --realm-gold:#B8960B;--realm-gold-light:#D4B44A;
+    --realm-text-primary:#D4DED4;--realm-text-secondary:#9AAE9A;
+    --realm-text-muted:#6A826A;--realm-text-bright:#E8F0E8;
+  `,
+  thalassor: `
+    --realm-deepest:#060e18;--realm-deep:#0d2137;--realm-card:#0a1220;
+    --realm-card-hover:#0e1a2e;--realm-dark:#1a3a54;--realm-mid:#1a5276;
+    --realm-bright:#7fb3d4;--realm-glow:#5ba3cf;--realm-pale:#c4dff0;
+    --realm-gold:#B8960B;--realm-gold-light:#D4B44A;
+    --realm-text-primary:#d6e8f4;--realm-text-secondary:#8aa8c0;
+    --realm-text-muted:#4a6a82;--realm-text-bright:#e8f1f8;
+  `,
+  ferridane: `
+    --realm-deepest:#0c0c10;--realm-deep:#141418;--realm-card:#18181e;
+    --realm-card-hover:#222230;--realm-dark:#3a3a4a;--realm-mid:#555570;
+    --realm-bright:#8888a0;--realm-glow:#708090;--realm-pale:#c0c0d0;
+    --realm-gold:#B8960B;--realm-gold-light:#D4B44A;
+    --realm-text-primary:#d0d0dc;--realm-text-secondary:#8888a0;
+    --realm-text-muted:#555570;--realm-text-bright:#e8e8f0;
+  `,
+  pyrthera: `
+    --realm-deepest:#120808;--realm-deep:#1a0c0c;--realm-card:#1e1010;
+    --realm-card-hover:#2a1616;--realm-dark:#5a2020;--realm-mid:#8b2500;
+    --realm-bright:#e85030;--realm-glow:#ff4500;--realm-pale:#ffaa88;
+    --realm-gold:#B8960B;--realm-gold-light:#D4B44A;
+    --realm-text-primary:#f0d0c8;--realm-text-secondary:#c09080;
+    --realm-text-muted:#7a4a3a;--realm-text-bright:#ffe8e0;
+  `,
+  tenebralis: `
+    --realm-deepest:#08060e;--realm-deep:#0e0a18;--realm-card:#120e1e;
+    --realm-card-hover:#1a1428;--realm-dark:#2a1848;--realm-mid:#3d2070;
+    --realm-bright:#7b50b0;--realm-glow:#4B0082;--realm-pale:#c8a0e8;
+    --realm-gold:#B8960B;--realm-gold-light:#D4B44A;
+    --realm-text-primary:#d8d0e8;--realm-text-secondary:#9888b0;
+    --realm-text-muted:#5a4878;--realm-text-bright:#f0e8ff;
+  `,
+};
+const themeStyle = REALM_THEMES[planet.id] || '';
 ---
 
 <!doctype html>
@@ -45,7 +90,7 @@ function resolveCharacterName(ref?: { id: string }) {
 </head>
 <body>
 
-<div class="realm-page">
+<div class="realm-page" style={themeStyle}>
   <!-- Aether particles -->
   <div class="aether-particles" id="aetherParticles"></div>
 
