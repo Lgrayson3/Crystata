@@ -1,0 +1,50 @@
+---
+interface Props {
+  element?: string;
+  patronDeity?: string;
+  exvisar?: string;
+  population?: string;
+  chromaticSignature?: string;
+  materialHierarchy?: string;
+  culturalAnalogs?: string;
+  narrativeFunction?: string;
+}
+
+const {
+  element,
+  patronDeity,
+  exvisar,
+  population,
+  chromaticSignature,
+  materialHierarchy,
+  culturalAnalogs,
+  narrativeFunction,
+} = Astro.props;
+
+const items = [
+  { label: 'Element', value: element },
+  { label: 'Patron Deity', value: patronDeity },
+  { label: 'Exvisar', value: exvisar },
+  { label: 'Population', value: population },
+  { label: 'Chromatic Signature', value: chromaticSignature },
+  { label: 'Material Hierarchy', value: materialHierarchy },
+  { label: 'Cultural Analogs', value: culturalAnalogs, fullWidth: true },
+  { label: 'Narrative Function', value: narrativeFunction, fullWidth: true },
+].filter(item => item.value);
+---
+
+{items.length > 0 && (
+  <div class="reveal">
+    <div class="identity-card">
+      <h2>Realm Identity</h2>
+      <div class="identity-grid">
+        {items.map(item => (
+          <div class:list={['identity-item', { 'full-width': item.fullWidth }]}>
+            <span class="identity-label">{item.label}</span>
+            <span class="identity-value" set:html={item.value} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+)}

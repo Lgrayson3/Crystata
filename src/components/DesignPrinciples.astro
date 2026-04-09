@@ -1,0 +1,27 @@
+---
+interface Principle {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  principles: Principle[];
+}
+
+const { principles } = Astro.props;
+
+function renderItalics(text: string): string {
+  return text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+}
+---
+
+{principles.length > 0 && (
+  <div>
+    {principles.map(p => (
+      <div class="principle">
+        <span class="principle-number">{p.title}</span>
+        <p class="principle-text" set:html={renderItalics(p.text)} />
+      </div>
+    ))}
+  </div>
+)}
