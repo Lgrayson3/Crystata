@@ -23,7 +23,7 @@ const { title = 'Crystata' } = Astro.props;
   <body>
     <!-- Persistent WebGL canvas — survives client-side navigation -->
     <div transition:persist="cosmos-canvas" id="cosmos-container">
-      <CosmosScene client:load />
+      <CosmosScene client:only="react" />
     </div>
 
     <!-- Page content rendered by Astro routes -->
