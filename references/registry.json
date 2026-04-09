@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-04-09T13:15:44.135Z",
-  "totalEntities": 44,
+  "generatedAt": "2026-04-09T13:49:18.680Z",
+  "totalEntities": 57,
   "collections": {
     "planets": [
       {
@@ -50,8 +50,16 @@
         "name": "Gran Ornea & Auraeas"
       },
       {
+        "id": "lower-terraces",
+        "name": "The Lower Terraces"
+      },
+      {
         "id": "maias",
         "name": "Maias & The Grand Garden of Meliadas"
+      },
+      {
+        "id": "middle-terraces",
+        "name": "The Middle Terraces"
       },
       {
         "id": "mnemosyne-archipelago",
@@ -70,11 +78,24 @@
         "name": "The Syndicate Isles"
       },
       {
+        "id": "the-depths",
+        "name": "The Depths"
+      },
+      {
+        "id": "upper-terraces",
+        "name": "The Upper Terraces"
+      },
+      {
         "id": "uronoia",
         "name": "Uronoia & The Temples of Tempest"
       }
     ],
-    "factions": [],
+    "factions": [
+      {
+        "id": "the-aesthetes",
+        "name": "The Aesthetes"
+      }
+    ],
     "characters": [
       {
         "id": "aeon",
@@ -97,6 +118,10 @@
         "name": "Saint Cloud Sinclair"
       },
       {
+        "id": "erebus",
+        "name": "Erebus"
+      },
+      {
         "id": "fiacre",
         "name": "Fiacre"
       },
@@ -117,8 +142,16 @@
         "name": "Saint Leif Sinclair"
       },
       {
+        "id": "noctivex",
+        "name": "Noctivex"
+      },
+      {
         "id": "pyralithe",
         "name": "Pyralithe"
+      },
+      {
+        "id": "raiwata",
+        "name": "Raiwata"
       },
       {
         "id": "salacia",
@@ -133,11 +166,19 @@
         "name": "Tein-Enhotep"
       },
       {
+        "id": "vex-mavarra",
+        "name": "Vex Mavarra"
+      },
+      {
         "id": "xal-uron",
         "name": "Xal-Uron"
       }
     ],
     "magicSystems": [
+      {
+        "id": "ak-lethem",
+        "name": "Ak'lethem — The Soul-Eating"
+      },
       {
         "id": "antaka",
         "name": "Antaka"
@@ -179,8 +220,20 @@
         "name": "Oinomancy"
       },
       {
+        "id": "oneironautica",
+        "name": "Oneironautica"
+      },
+      {
+        "id": "pansilion",
+        "name": "The Pansilion"
+      },
+      {
         "id": "silent-breath",
         "name": "Silent Breath"
+      },
+      {
+        "id": "thanatonautica",
+        "name": "Thanatonautica"
       },
       {
         "id": "wind-and-storm",
