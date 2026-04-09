@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-04-09T11:56:30.133Z",
-  "totalEntities": 29,
+  "generatedAt": "2026-04-09T13:15:44.135Z",
+  "totalEntities": 44,
   "collections": {
     "planets": [
       {
@@ -30,8 +30,20 @@
         "name": "Amphitra"
       },
       {
+        "id": "ashen-vale",
+        "name": "The Ashen Vale"
+      },
+      {
         "id": "crystal-isles",
         "name": "The Crystal Isles"
+      },
+      {
+        "id": "emberate-of-khet",
+        "name": "The Emberate of Khet"
+      },
+      {
+        "id": "freeholds-of-rhylos",
+        "name": "The Freeholds of Rhylos"
       },
       {
         "id": "gran-ornea",
@@ -73,8 +85,24 @@
         "name": "Aeralithe"
       },
       {
+        "id": "agnivar",
+        "name": "Agnivar"
+      },
+      {
+        "id": "alciel",
+        "name": "Alciel"
+      },
+      {
         "id": "cloud-sinclair",
         "name": "Saint Cloud Sinclair"
+      },
+      {
+        "id": "fiacre",
+        "name": "Fiacre"
+      },
+      {
+        "id": "hestia",
+        "name": "Hestia"
       },
       {
         "id": "hydralithe",
@@ -89,8 +117,20 @@
         "name": "Saint Leif Sinclair"
       },
       {
+        "id": "pyralithe",
+        "name": "Pyralithe"
+      },
+      {
         "id": "salacia",
         "name": "Salacia"
+      },
+      {
+        "id": "sol-kheret",
+        "name": "Sol'Kheret"
+      },
+      {
+        "id": "tein-enhotep",
+        "name": "Tein-Enhotep"
       },
       {
         "id": "xal-uron",
@@ -99,8 +139,28 @@
     ],
     "magicSystems": [
       {
+        "id": "antaka",
+        "name": "Antaka"
+      },
+      {
+        "id": "black-flame",
+        "name": "The Black Flame"
+      },
+      {
+        "id": "cinerix",
+        "name": "Cinerix — The Ash-Sight"
+      },
+      {
         "id": "clairmancy",
         "name": "Clairmancy"
+      },
+      {
+        "id": "dance-of-the-molten-heart",
+        "name": "The Dance of the Molten Heart"
+      },
+      {
+        "id": "golden-crucible",
+        "name": "The Path of the Golden Crucible"
       },
       {
         "id": "harmonics-of-resonance",
