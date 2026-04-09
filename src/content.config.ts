@@ -24,6 +24,33 @@ const planets = defineCollection({
     // Visual properties for the cosmos renderer
     radius: z.number().default(5),
     color: z.string().default('#888888'),
+
+    // ─── Realm Identity Card ───
+    element: z.string().optional(),
+    patronDeity: reference('characters').optional(),
+    exvisar: reference('characters').optional(),
+    population: z.string().optional(),
+    chromaticSignature: z.string().optional(),
+    materialHierarchy: z.string().optional(),
+    culturalAnalogs: z.string().optional(),
+    narrativeFunction: z.string().optional(),
+    subtitle: z.string().optional(),
+    epigraph: z.string().optional(),
+
+    // ─── Material Palette ───
+    palette: z.array(z.object({
+      name: z.string(),
+      hex: z.string(),
+      gradient: z.array(z.string()),
+      description: z.string(),
+    })).optional(),
+
+    // ─── Design Principles ───
+    designPrinciples: z.array(z.object({
+      title: z.string(),
+      text: z.string(),
+    })).optional(),
+
     // Graph edges
     regions: z.array(reference('regions')).optional(),
     factions: z.array(reference('factions')).optional(),
@@ -36,6 +63,7 @@ const regions = defineCollection({
   schema: z.object({
     name: z.string(),
     description: z.string(),
+    tagline: z.string().optional(),
     // Parent planet (N:1)
     planet: reference('planets'),
     // Map positioning for the SVG/Canvas layer
@@ -44,6 +72,7 @@ const regions = defineCollection({
       y: z.number(),
     }).optional(),
     // Graph edges
+    schoolOfMagic: reference('magicSystems').optional(),
     characters: z.array(reference('characters')).optional(),
     factions: z.array(reference('factions')).optional(),
   }),
@@ -86,6 +115,9 @@ const magicSystems = defineCollection({
     name: z.string(),
     description: z.string(),
     origin: z.string().optional(),
+    classification: z.string().optional(),
+    realm: reference('planets').optional(),
+    region: reference('regions').optional(),
     // Graph edges
     practitioners: z.array(reference('characters')).optional(),
     associatedFactions: z.array(reference('factions')).optional(),

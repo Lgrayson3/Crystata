@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-04-08T05:17:35.680Z",
-  "totalEntities": 5,
+  "generatedAt": "2026-04-08T05:49:21.796Z",
+  "totalEntities": 16,
   "collections": {
     "planets": [
       {
@@ -24,9 +24,56 @@
         "name": "Zephyros"
       }
     ],
-    "regions": [],
+    "regions": [
+      {
+        "id": "crystal-isles",
+        "name": "The Crystal Isles"
+      },
+      {
+        "id": "gran-ornea",
+        "name": "Gran Ornea & Auraeas"
+      },
+      {
+        "id": "maias",
+        "name": "Maias & The Grand Garden of Meliadas"
+      },
+      {
+        "id": "uronoia",
+        "name": "Uronoia & The Temples of Tempest"
+      }
+    ],
     "factions": [],
-    "characters": [],
-    "magicSystems": []
+    "characters": [
+      {
+        "id": "aeon",
+        "name": "Aeon"
+      },
+      {
+        "id": "aeralithe",
+        "name": "Aeralithe"
+      },
+      {
+        "id": "iles",
+        "name": "Iles"
+      },
+      {
+        "id": "xal-uron",
+        "name": "Xal-Uron"
+      }
+    ],
+    "magicSystems": [
+      {
+        "id": "harmonics-of-resonance",
+        "name": "Harmonics of Resonance"
+      },
+      {
+        "id": "silent-breath",
+        "name": "Silent Breath"
+      },
+      {
+        "id": "wind-and-storm",
+        "name": "Wind & Storm"
+      }
+    ]
   }
 }

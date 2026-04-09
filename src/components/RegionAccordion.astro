@@ -1,0 +1,80 @@
+---
+import { render } from 'astro:content';
+
+interface RegionEntry {
+  id: string;
+  data: {
+    name: string;
+    tagline?: string;
+    schoolOfMagic?: { id: string; collection: string };
+  };
+  render?: () => Promise<{ Content: any }>;
+}
+
+interface Props {
+  regions: RegionEntry[];
+}
+
+const { regions } = Astro.props;
+
+// Render each region's body content
+const renderedRegions = await Promise.all(
+  regions.map(async (region) => {
+    const { Content } = await render(region);
+    return { region, Content };
+  })
+);
+---
+
+{renderedRegions.length > 0 && (
+  <div class="region-accordion" id="regionAccordion">
+    {renderedRegions.map(({ region, Content }) => (
+      <div class="region-item">
+        <div class="region-header" data-accordion-trigger>
+          <h3>{region.data.name}</h3>
+          {region.data.tagline && (
+            <span class="region-tagline">{region.data.tagline}</span>
+          )}
+          <span class="region-toggle">+</span>
+        </div>
+        <div class="region-body">
+          <div class="region-body-inner realm-prose">
+            <Content />
+            {region.data.schoolOfMagic && (
+              <div class="region-detail">
+                <a href={`/codex/magic-systems/${region.data.schoolOfMagic.id}`}
+                   style="color: var(--realm-pale); font-style: italic; font-size: 0.9rem;">
+                  View School of Magic →
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('[data-accordion-trigger]').forEach(header => {
+      header.addEventListener('click', () => {
+        const item = header.parentElement!;
+        const body = item.querySelector('.region-body') as HTMLElement;
+        const isActive = item.classList.contains('active');
+
+        // Close all
+        document.querySelectorAll('.region-item').forEach(ni => {
+          ni.classList.remove('active');
+          (ni.querySelector('.region-body') as HTMLElement).style.maxHeight = '0';
+        });
+
+        // Open clicked if wasn't active
+        if (!isActive) {
+          item.classList.add('active');
+          body.style.maxHeight = body.scrollHeight + 'px';
+        }
+      });
+    });
+  });
+</script>

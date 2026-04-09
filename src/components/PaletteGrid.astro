@@ -1,0 +1,32 @@
+---
+interface PaletteEntry {
+  name: string;
+  hex: string;
+  gradient: string[];
+  description: string;
+}
+
+interface Props {
+  palette: PaletteEntry[];
+}
+
+const { palette } = Astro.props;
+---
+
+{palette.length > 0 && (
+  <div class="palette-grid">
+    {palette.map(swatch => (
+      <div class="swatch">
+        <div
+          class="swatch-color"
+          style={`background: linear-gradient(135deg, ${swatch.gradient.join(', ')});`}
+        />
+        <div class="swatch-info">
+          <span class="swatch-name">{swatch.name}</span>
+          <span class="swatch-hex">{swatch.hex}</span>
+          <span class="swatch-desc">{swatch.description}</span>
+        </div>
+      </div>
+    ))}
+  </div>
+)}

@@ -1,0 +1,518 @@
+/*
+ * Moirai Codex — Realm Page Design System
+ *
+ * Adapted from the standalone Moirai Codex pages.
+ * Color variables are set per-realm via inline style on <body>.
+ */
+
+/* ===== REALM COLOR VARIABLES (defaults — overridden per realm) ===== */
+:root {
+  --realm-deepest: #0a110a;
+  --realm-deep: #0f1a0f;
+  --realm-card: #131f13;
+  --realm-card-hover: #1a2b1a;
+  --realm-dark: #2D5F2D;
+  --realm-mid: #3A7D3A;
+  --realm-light: #4A9E4A;
+  --realm-bright: #6BBF6B;
+  --realm-glow: #8FD98F;
+  --realm-pale: #c8eac8;
+  --realm-gold: #B8960B;
+  --realm-gold-light: #D4B44A;
+  --realm-text-primary: #D4DED4;
+  --realm-text-secondary: #9AAE9A;
+  --realm-text-muted: #6A826A;
+  --realm-text-bright: #E8F0E8;
+}
+
+/* ===== REALM PAGE BODY ===== */
+.realm-page {
+  background: var(--realm-deepest);
+  color: var(--realm-text-primary);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.75;
+  min-height: 100vh;
+  position: relative;
+  z-index: 10;
+}
+
+/* Atmospheric radial gradients */
+.realm-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(var(--realm-rgb, 74, 158, 74), 0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 80% at 80% 90%, rgba(184, 150, 11, 0.03) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 50% at 50% 50%, rgba(var(--realm-rgb, 74, 158, 74), 0.02) 0%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== AETHER PARTICLES ===== */
+.aether-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.aether-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--realm-glow);
+  border-radius: 50%;
+  opacity: 0;
+  animation: aether-drift linear infinite;
+}
+@keyframes aether-drift {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.15; }
+  100% { transform: translateY(100vh) translateX(30px); opacity: 0; }
+}
+
+/* ===== LAYOUT ===== */
+.realm-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.realm-section {
+  padding: 5rem 0;
+}
+
+/* ===== DIAMOND DIVIDER ===== */
+.diamond-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 3rem 0;
+  opacity: 0.5;
+}
+.diamond-divider::before,
+.diamond-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--realm-dark), transparent);
+}
+.diamond-divider .diamond {
+  width: 8px;
+  height: 8px;
+  background: var(--realm-mid);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.realm-page h1, .realm-page h2, .realm-page h3, .realm-page h4 {
+  font-family: 'Cinzel', serif;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--realm-text-bright);
+}
+
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  color: var(--realm-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(to right, var(--realm-mid), transparent);
+}
+
+/* ===== HERO ===== */
+.realm-hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5rem 2rem;
+  position: relative;
+}
+
+.realm-hero-tag {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--realm-text-muted);
+  margin-bottom: 2rem;
+  animation: fadeIn 1.5s ease-out 0.2s both;
+}
+
+.realm-hero-name {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--realm-bright);
+  line-height: 1;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 80px rgba(var(--realm-rgb, 107, 191, 107), 0.3), 0 0 160px rgba(var(--realm-rgb, 107, 191, 107), 0.1);
+  animation: fadeIn 1.5s ease-out 0.5s both;
+}
+
+.realm-hero-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--realm-text-secondary);
+  letter-spacing: 0.1em;
+  margin-bottom: 3rem;
+  animation: fadeIn 1.5s ease-out 0.8s both;
+}
+
+.realm-hero-epigraph {
+  max-width: 600px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--realm-pale);
+  line-height: 1.8;
+  opacity: 0.8;
+  animation: fadeIn 1.5s ease-out 1.1s both;
+}
+.realm-hero-epigraph::before { content: '\201C'; }
+.realm-hero-epigraph::after { content: '\201D'; }
+
+.realm-hero-scroll {
+  position: absolute;
+  bottom: 3rem;
+  animation: fadeIn 1.5s ease-out 1.6s both, gentle-bob 3s ease-in-out infinite;
+  color: var(--realm-text-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-family: 'Cinzel', serif;
+}
+.realm-hero-scroll span {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.2rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes gentle-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* ===== IDENTITY CARD ===== */
+.identity-card {
+  background: var(--realm-card);
+  border: 1px solid var(--realm-dark);
+  border-radius: 2px;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.identity-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, var(--realm-dark), var(--realm-bright), var(--realm-gold), var(--realm-bright), var(--realm-dark));
+}
+.identity-card h2 {
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--realm-text-muted);
+  margin-bottom: 2rem;
+}
+.identity-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 3rem;
+}
+.identity-item {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(var(--realm-rgb, 45, 95, 45), 0.2);
+}
+.identity-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--realm-text-muted);
+  display: block;
+  margin-bottom: 4px;
+}
+.identity-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--realm-text-primary);
+}
+.identity-value em { color: var(--realm-pale); }
+.identity-item.full-width { grid-column: 1 / -1; }
+
+/* ===== REGION ACCORDION ===== */
+.region-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.region-item {
+  border: 1px solid rgba(var(--realm-rgb, 45, 95, 45), 0.25);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+.region-item.active { border-color: var(--realm-mid); }
+
+.region-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: var(--realm-card);
+  cursor: pointer;
+  transition: background 0.3s ease;
+  user-select: none;
+}
+.region-header:hover { background: var(--realm-card-hover); }
+.region-header h3 {
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: var(--realm-bright);
+  margin: 0;
+}
+.region-header .region-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--realm-text-muted);
+  margin-left: auto;
+  margin-right: 1rem;
+}
+.region-toggle {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--realm-mid);
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+.region-item.active .region-toggle { transform: rotate(45deg); }
+
+.region-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+  background: var(--realm-deep);
+}
+.region-body-inner {
+  padding: 2rem;
+}
+.region-body-inner .prose {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+.region-detail {
+  margin-top: 1rem;
+}
+.region-detail-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--realm-mid);
+  margin-bottom: 4px;
+}
+
+/* ===== PROSE (body content) ===== */
+.realm-prose {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--realm-text-primary);
+}
+.realm-prose h2 {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  color: var(--realm-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-top: 5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  position: relative;
+}
+.realm-prose h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(to right, var(--realm-mid), transparent);
+}
+/* Diamond divider above h2 via ::before */
+.realm-prose h2::before {
+  content: '◆';
+  display: block;
+  text-align: center;
+  font-size: 8px;
+  color: var(--realm-mid);
+  opacity: 0.5;
+  margin-bottom: 3rem;
+  letter-spacing: 2em;
+}
+.realm-prose h2:first-child::before { display: none; }
+
+.realm-prose h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--realm-mid);
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.realm-prose p {
+  margin-bottom: 1.5rem;
+}
+.realm-prose p + p { margin-top: -0.5rem; }
+.realm-prose em { color: var(--realm-pale); font-style: italic; }
+.realm-prose strong { color: var(--realm-text-bright); font-weight: 500; }
+
+/* ===== PALETTE GRID ===== */
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.swatch {
+  background: var(--realm-card);
+  border: 1px solid rgba(var(--realm-rgb, 45, 95, 45), 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.swatch:hover {
+  transform: translateY(-2px);
+  border-color: var(--realm-mid);
+}
+.swatch-color { height: 80px; }
+.swatch-info { padding: 1rem; }
+.swatch-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--realm-text-bright);
+  display: block;
+}
+.swatch-hex {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  color: var(--realm-text-muted);
+  display: block;
+  margin: 2px 0 6px;
+}
+.swatch-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  color: var(--realm-text-secondary);
+  line-height: 1.5;
+}
+
+/* ===== DESIGN PRINCIPLES ===== */
+.principle {
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(var(--realm-rgb, 45, 95, 45), 0.15);
+}
+.principle:last-child { border-bottom: none; }
+.principle-number {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--realm-gold);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 6px;
+}
+.principle-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  color: var(--realm-text-primary);
+  line-height: 1.7;
+}
+.principle-text em { color: var(--realm-pale); }
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== FOOTER ===== */
+.realm-footer {
+  text-align: center;
+  padding: 5rem 0 3rem;
+  color: var(--realm-text-muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+}
+.realm-footer span {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.2em;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+.realm-footer em {
+  color: var(--realm-mid);
+  font-size: 0.75rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+  .realm-page { font-size: 16px; }
+  .identity-grid { grid-template-columns: 1fr; }
+  .palette-grid { grid-template-columns: repeat(2, 1fr); }
+  .region-header { flex-wrap: wrap; gap: 4px; }
+  .region-header .region-tagline {
+    order: 3;
+    width: 100%;
+    margin: 0;
+    font-size: 0.8rem;
+  }
+  .realm-section { padding: 3rem 0; }
+  .realm-container { padding: 0 1rem; }
+  .identity-card { padding: 2rem; }
+}

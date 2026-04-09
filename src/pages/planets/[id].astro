@@ -1,7 +1,11 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import MapView from '../../components/MapView';
 import { getCollection, render } from 'astro:content';
+import { ClientRouter } from 'astro:transitions';
+import IdentityCard from '../../components/IdentityCard.astro';
+import RegionAccordion from '../../components/RegionAccordion.astro';
+import DiamondDivider from '../../components/DiamondDivider.astro';
+import PaletteGrid from '../../components/PaletteGrid.astro';
+import DesignPrinciples from '../../components/DesignPrinciples.astro';
 
 export async function getStaticPaths() {
   const planets = await getCollection('planets');
@@ -14,112 +18,150 @@ export async function getStaticPaths() {
 const { planet } = Astro.props;
 const { Content } = await render(planet);
 
-// Resolve region references for the map
-const regions = await getCollection('regions');
-const planetRegions = regions
-  .filter((r) => r.data.planet.id === planet.id)
-  .map((r) => ({
-    id: r.id,
-    name: r.data.name,
-    x: r.data.mapPosition?.x ?? 200,
-    y: r.data.mapPosition?.y ?? 200,
-  }));
+// Resolve regions belonging to this planet
+const allRegions = await getCollection('regions');
+const regions = allRegions.filter((r) => r.data.planet.id === planet.id);
+
+// Resolve patron deity and exvisar names for the identity card
+const allCharacters = await getCollection('characters');
+function resolveCharacterName(ref?: { id: string }) {
+  if (!ref) return undefined;
+  const char = allCharacters.find(c => c.id === ref.id);
+  return char ? `<em>${char.data.name}</em> — ${char.data.title || char.data.description}` : ref.id;
+}
 ---
 
-<BaseLayout title={planet.data.name}>
-  <div class="planet-page">
-    <header>
-      <a href="/" class="back-link">&larr; Cosmos</a>
-      <h1>{planet.data.name}</h1>
-      <p class="description">{planet.data.description}</p>
-    </header>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{planet.data.name} — Realm Codex | Crystata</title>
+  <ClientRouter />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet" />
+  <style>
+    @import '../../styles/realm.css';
+  </style>
+</head>
+<body>
 
-    <section class="map-section">
-      <MapView
-        client:load
-        planetName={planet.data.name}
-        regions={planetRegions}
-      />
+<div class="realm-page">
+  <!-- Aether particles -->
+  <div class="aether-particles" id="aetherParticles"></div>
+
+  <!-- ===== HERO ===== -->
+  <header class="realm-hero">
+    <div class="realm-hero-tag">Crystata — Realm Codex</div>
+    <h1 class="realm-hero-name">{planet.data.name}</h1>
+    {planet.data.subtitle && (
+      <div class="realm-hero-subtitle">{planet.data.subtitle}</div>
+    )}
+    {planet.data.epigraph && (
+      <p class="realm-hero-epigraph">{planet.data.epigraph}</p>
+    )}
+    <div class="realm-hero-scroll">Descend<span>⌄</span></div>
+  </header>
+
+  <main class="realm-container">
+    <!-- ===== IDENTITY CARD ===== -->
+    <IdentityCard
+      element={planet.data.element}
+      patronDeity={resolveCharacterName(planet.data.patronDeity)}
+      exvisar={resolveCharacterName(planet.data.exvisar)}
+      population={planet.data.population}
+      chromaticSignature={planet.data.chromaticSignature}
+      materialHierarchy={planet.data.materialHierarchy}
+      culturalAnalogs={planet.data.culturalAnalogs}
+      narrativeFunction={planet.data.narrativeFunction}
+    />
+
+    <DiamondDivider />
+
+    <!-- ===== BODY PROSE (The Land, The People, etc.) ===== -->
+    <section class="realm-section reveal">
+      <div class="realm-prose">
+        <Content />
+      </div>
     </section>
 
-    <section class="lore-content">
-      <Content />
-    </section>
+    <!-- ===== NATIONS & REGIONS ===== -->
+    {regions.length > 0 && (
+      <>
+        <DiamondDivider />
+        <section class="realm-section reveal">
+          <h2 class="section-title">Nations & Regions</h2>
+          <RegionAccordion regions={regions} />
+        </section>
+      </>
+    )}
 
-    <section class="region-list">
-      <h2>Regions</h2>
-      <ul>
-        {planetRegions.map((region) => (
-          <li>
-            <a href={`/codex/regions/${region.id}`}>{region.name}</a>
-          </li>
-        ))}
-      </ul>
-    </section>
-  </div>
-</BaseLayout>
+    <!-- ===== MATERIAL PALETTE ===== -->
+    {planet.data.palette && planet.data.palette.length > 0 && (
+      <>
+        <DiamondDivider />
+        <section class="realm-section reveal">
+          <h2 class="section-title">Material Palette</h2>
+          <PaletteGrid palette={planet.data.palette} />
+        </section>
+      </>
+    )}
 
-<style>
-  .planet-page {
-    position: relative;
-    z-index: 10;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 80px 24px 60px;
-    min-height: 100vh;
-    background: rgba(10, 10, 25, 0.92);
-  }
+    <!-- ===== DESIGN PRINCIPLES ===== -->
+    {planet.data.designPrinciples && planet.data.designPrinciples.length > 0 && (
+      <>
+        <DiamondDivider />
+        <section class="realm-section reveal">
+          <h2 class="section-title">Design Principles</h2>
+          <DesignPrinciples principles={planet.data.designPrinciples} />
+        </section>
+      </>
+    )}
 
-  .back-link {
-    font-family: monospace;
-    font-size: 13px;
-    color: rgba(200, 200, 255, 0.5);
-    text-decoration: none;
-  }
+    <DiamondDivider />
 
-  .back-link:hover { color: #7B68EE; }
+    <!-- ===== FOOTER ===== -->
+    <footer class="realm-footer">
+      <span>Crystata</span><br />
+      Realm Codex — {planet.data.name}<br />
+      <a href="/" style="color: var(--realm-mid); font-size: 0.75rem; text-decoration: none;">
+        ← Return to Cosmos
+      </a>
+    </footer>
+  </main>
+</div>
 
-  h1 {
-    font-family: monospace;
-    font-size: 36px;
-    color: #7B68EE;
-    margin: 8px 0;
-  }
+<script>
+  document.addEventListener('astro:page-load', () => {
+    // Aether particles
+    const container = document.getElementById('aetherParticles');
+    if (container && container.children.length === 0) {
+      for (let i = 0; i < 25; i++) {
+        const p = document.createElement('div');
+        p.className = 'aether-particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (12 + Math.random() * 20) + 's';
+        p.style.animationDelay = (Math.random() * 15) + 's';
+        const size = (1 + Math.random() * 2) + 'px';
+        p.style.width = size;
+        p.style.height = size;
+        container.appendChild(p);
+      }
+    }
 
-  .description {
-    font-size: 16px;
-    color: rgba(200, 200, 255, 0.7);
-    line-height: 1.6;
-    margin-bottom: 32px;
-  }
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    function checkReveal() {
+      const windowHeight = window.innerHeight;
+      reveals.forEach(el => {
+        if (el.getBoundingClientRect().top < windowHeight - 80) {
+          el.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', checkReveal);
+    setTimeout(checkReveal, 100);
+  });
+</script>
 
-  .map-section { margin-bottom: 40px; }
-
-  .lore-content {
-    color: rgba(220, 220, 240, 0.85);
-    line-height: 1.8;
-    font-size: 16px;
-  }
-
-  h2 {
-    font-family: monospace;
-    font-size: 20px;
-    color: rgba(200, 200, 255, 0.8);
-    margin-top: 40px;
-  }
-
-  .region-list ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .region-list li a {
-    display: inline-block;
-    padding: 6px 0;
-    color: rgba(200, 200, 255, 0.7);
-    text-decoration: none;
-    font-size: 15px;
-  }
-
-  .region-list li a:hover { color: #7B68EE; }
-</style>
+</body>
+</html>
